@@ -50,7 +50,7 @@ def startup(datasette):
         # Needs to set is_mutable=True here because the default was False
         # in Datasette versions up to and including 0.62
         datasette.add_database(
-            Database(datasette, path=str(file_path), is_mutable=True),
+            Database(datasette, path=str(file_path), is_mutable=False),
         )
 
 
@@ -125,7 +125,7 @@ async def upload_dbs(scope, receive, datasette, request):
         return await error(f"File is not a valid SQLite database ({e})")
 
     # File is valid - add it to this Datasette instance
-    db = Database(datasette, path=str(filepath), is_mutable=True)
+    db = Database(datasette, path=str(filepath), is_mutable=False)
     datasette.add_database(db)
 
     redirect_url = datasette.urls.database(db.name)
